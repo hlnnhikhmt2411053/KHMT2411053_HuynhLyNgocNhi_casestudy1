@@ -1,0 +1,544 @@
+ android/app/build/deeplink.json                    |    1 [32m+[m
+ .../debug/mapDebugSourceSetPaths/file-map.txt      |    7 [32m+[m
+ .../javaPreCompileDebug/annotationProcessors.json  |    1 [32m+[m
+ .../createDebugApkListingFileRedirect/redirect.txt |    2 [32m+[m
+ .../writeDebugAppMetadata/app-metadata.properties  |    2 [32m+[m
+ .../flutter_assets/AssetManifest.bin               |    1 [32m+[m
+ .../flutter_assets/FontManifest.json               |    1 [32m+[m
+ .../mergeDebugAssets/flutter_assets/NOTICES.Z      |  Bin [31m0[m -> [32m98182[m bytes
+ .../flutter_assets/NativeAssetsManifest.json       |    1 [32m+[m
+ .../flutter_assets/fonts/MaterialIcons-Regular.otf |  Bin [31m0[m -> [32m1645184[m bytes
+ .../flutter_assets/isolate_snapshot_data           |  Bin [31m0[m -> [32m11647016[m bytes
+ .../flutter_assets/kernel_blob.bin                 |  Bin [31m0[m -> [32m44082064[m bytes
+ .../cupertino_icons/assets/CupertinoIcons.ttf      |  Bin [31m0[m -> [32m257628[m bytes
+ .../flutter_assets/shaders/ink_sparkle.frag        |  Bin [31m0[m -> [32m21856[m bytes
+ .../flutter_assets/shaders/stretch_effect.frag     |  Bin [31m0[m -> [32m17616[m bytes
+ .../flutter_assets/vm_snapshot_data                |    0
+ .../output-metadata.json                           |   10 [32m+[m
+ .../debug/processDebugResources/R.jar              |  Bin [31m0[m -> [32m67005[m bytes
+ .../debug/generateDebugRFile/R.jar                 |  Bin [31m0[m -> [32m2075[m bytes
+ .../debug/generateDebugRFile/R.txt                 |    4 [32m+[m
+ .../assets/flutter_assets/AssetManifest.bin.jar    |  Bin [31m0[m -> [32m234[m bytes
+ .../assets/flutter_assets/FontManifest.json.jar    |  Bin [31m0[m -> [32m287[m bytes
+ .../out/assets/flutter_assets/NOTICES.Z.jar        |  Bin [31m0[m -> [32m96717[m bytes
+ .../flutter_assets/NativeAssetsManifest.json.jar   |  Bin [31m0[m -> [32m239[m bytes
+ .../fonts/MaterialIcons-Regular.otf.jar            |  Bin [31m0[m -> [32m593250[m bytes
+ .../flutter_assets/isolate_snapshot_data.jar       |  Bin [31m0[m -> [32m4405932[m bytes
+ .../out/assets/flutter_assets/kernel_blob.bin.jar  |  Bin [31m0[m -> [32m14958571[m bytes
+ .../cupertino_icons/assets/CupertinoIcons.ttf.jar  |  Bin [31m0[m -> [32m127266[m bytes
+ .../flutter_assets/shaders/ink_sparkle.frag.jar    |  Bin [31m0[m -> [32m6373[m bytes
+ .../flutter_assets/shaders/stretch_effect.frag.jar |  Bin [31m0[m -> [32m4451[m bytes
+ .../out/assets/flutter_assets/vm_snapshot_data.jar |  Bin [31m0[m -> [32m176[m bytes
+ .../out/currentProject/dirs_bucket_0/graph.bin     |  Bin [31m0[m -> [32m235[m bytes
+ .../out/currentProject/dirs_bucket_1/graph.bin     |  Bin [31m0[m -> [32m235[m bytes
+ .../out/currentProject/dirs_bucket_2/graph.bin     |  Bin [31m0[m -> [32m235[m bytes
+ .../out/currentProject/dirs_bucket_3/graph.bin     |  Bin [31m0[m -> [32m235[m bytes
+ .../out/currentProject/dirs_bucket_4/graph.bin     |  Bin [31m0[m -> [32m235[m bytes
+ .../out/currentProject/dirs_bucket_5/graph.bin     |  Bin [31m0[m -> [32m235[m bytes
+ .../graph.bin                                      |  Bin [31m0[m -> [32m235[m bytes
+ .../graph.bin                                      |  Bin [31m0[m -> [32m235[m bytes
+ .../graph.bin                                      |  Bin [31m0[m -> [32m235[m bytes
+ .../graph.bin                                      |  Bin [31m0[m -> [32m235[m bytes
+ .../graph.bin                                      |  Bin [31m0[m -> [32m235[m bytes
+ .../graph.bin                                      |  Bin [31m0[m -> [32m235[m bytes
+ .../out/externalLibs/dirs_bucket_0/graph.bin       |  Bin [31m0[m -> [32m235[m bytes
+ .../out/externalLibs/dirs_bucket_1/graph.bin       |  Bin [31m0[m -> [32m235[m bytes
+ .../out/externalLibs/dirs_bucket_2/graph.bin       |  Bin [31m0[m -> [32m235[m bytes
+ .../out/externalLibs/dirs_bucket_3/graph.bin       |  Bin [31m0[m -> [32m235[m bytes
+ .../out/externalLibs/dirs_bucket_4/graph.bin       |  Bin [31m0[m -> [32m235[m bytes
+ .../out/externalLibs/dirs_bucket_5/graph.bin       |  Bin [31m0[m -> [32m235[m bytes
+ .../out/mixedScopes/dirs_bucket_0/graph.bin        |  Bin [31m0[m -> [32m235[m bytes
+ .../out/mixedScopes/dirs_bucket_1/graph.bin        |  Bin [31m0[m -> [32m235[m bytes
+ .../out/mixedScopes/dirs_bucket_2/graph.bin        |  Bin [31m0[m -> [32m235[m bytes
+ .../out/mixedScopes/dirs_bucket_3/graph.bin        |  Bin [31m0[m -> [32m235[m bytes
+ .../out/mixedScopes/dirs_bucket_4/graph.bin        |  Bin [31m0[m -> [32m235[m bytes
+ .../out/mixedScopes/dirs_bucket_5/graph.bin        |  Bin [31m0[m -> [32m235[m bytes
+ .../out/otherProjects/dirs_bucket_0/graph.bin      |  Bin [31m0[m -> [32m235[m bytes
+ .../out/otherProjects/dirs_bucket_1/graph.bin      |  Bin [31m0[m -> [32m235[m bytes
+ .../out/otherProjects/dirs_bucket_2/graph.bin      |  Bin [31m0[m -> [32m235[m bytes
+ .../out/otherProjects/dirs_bucket_3/graph.bin      |  Bin [31m0[m -> [32m235[m bytes
+ .../out/otherProjects/dirs_bucket_4/graph.bin      |  Bin [31m0[m -> [32m235[m bytes
+ .../out/otherProjects/dirs_bucket_5/graph.bin      |  Bin [31m0[m -> [32m235[m bytes
+ .../dex/debug/mergeExtDexDebug/classes.dex         |  Bin [31m0[m -> [32m7296652[m bytes
+ .../dex/debug/mergeProjectDexDebug/0/classes.dex   |  Bin [31m0[m -> [32m35492[m bytes
+ .../dex/debug/mergeProjectDexDebug/1/classes.dex   |  Bin [31m0[m -> [32m936[m bytes
+ .../dex/debug/mergeProjectDexDebug/13/classes.dex  |  Bin [31m0[m -> [32m932[m bytes
+ .../debug/dexBuilderDebug/out                      |  Bin [31m0[m -> [32m406[m bytes
+ .../debug/dexBuilderDebug/out                      |    1 [32m+[m
+ .../intermediates/flutter/debug/.last_build_id     |    1 [32m+[m
+ .../flutter/debug/flutter_assets/AssetManifest.bin |    1 [32m+[m
+ .../flutter/debug/flutter_assets/FontManifest.json |    1 [32m+[m
+ .../flutter/debug/flutter_assets/NOTICES.Z         |  Bin [31m0[m -> [32m98182[m bytes
+ .../debug/flutter_assets/NativeAssetsManifest.json |    1 [32m+[m
+ .../flutter_assets/fonts/MaterialIcons-Regular.otf |  Bin [31m0[m -> [32m1645184[m bytes
+ .../debug/flutter_assets/isolate_snapshot_data     |  Bin [31m0[m -> [32m11647016[m bytes
+ .../flutter/debug/flutter_assets/kernel_blob.bin   |  Bin [31m0[m -> [32m44082064[m bytes
+ .../cupertino_icons/assets/CupertinoIcons.ttf      |  Bin [31m0[m -> [32m257628[m bytes
+ .../debug/flutter_assets/shaders/ink_sparkle.frag  |  Bin [31m0[m -> [32m21856[m bytes
+ .../flutter_assets/shaders/stretch_effect.frag     |  Bin [31m0[m -> [32m17616[m bytes
+ .../flutter/debug/flutter_assets/vm_snapshot_data  |    0
+ .../intermediates/flutter/debug/flutter_build.d    |    1 [32m+[m
+ .../debug/mergeDebugGlobalSynthetics/classes.dex   |  Bin [31m0[m -> [32m1228[m bytes
+ .../incremental/debug-mergeJavaRes/merge-state     |  Bin [31m0[m -> [32m6975[m bytes
+ .../zip-cache/1s4lSWba+8QnhWAhGDp4zw==             |    1 [32m+[m
+ .../zip-cache/6zbGqdyrF4Efx+0hra+gHQ==             |    1 [32m+[m
+ .../zip-cache/7WDCPkeuAhSQPlfaLrw2Sw==             |    1 [32m+[m
+ .../zip-cache/8+XieXmyPjSw6pfEcXf+4w==             |    1 [32m+[m
+ .../zip-cache/8Ao0SBCuVzw1_HaR2DqpJQ==             |    1 [32m+[m
+ .../zip-cache/A4kL2SuLpwkUMzRSIV8OjQ==             |    1 [32m+[m
+ .../zip-cache/AbXgqFM_rDAWzZ8bmPRc5g==             |    1 [32m+[m
+ .../zip-cache/BeBo0D6bV+4oFzFKo8Od0A==             |    1 [32m+[m
+ .../zip-cache/CnrpHKdN0fjCwd9vLgIWZA==             |    1 [32m+[m
+ .../zip-cache/DshG7dbb4MgW7AHezEDl8g==             |    1 [32m+[m
+ .../zip-cache/Gfl9L3_KI41_X696RTKI7w==             |    1 [32m+[m
+ .../zip-cache/HOtJR0Q_tWnYA2cNv8phVA==             |    1 [32m+[m
+ .../zip-cache/HXXxvloTgNUpROqVQzMTjA==             |    1 [32m+[m
+ .../zip-cache/Hr6hYxjW7okcs+xGLo_LMQ==             |    1 [32m+[m
+ .../zip-cache/HvRMHXPlpcQUfrfsEOImZA==             |    1 [32m+[m
+ .../zip-cache/N59H2hXJKy50Q5FcYMQvIw==             |    1 [32m+[m
+ .../zip-cache/NZjFRoYCcvIlLTRs5zhjDQ==             |    1 [32m+[m
+ .../zip-cache/OqLcM0JlHD09sglZhZcBXg==             |    1 [32m+[m
+ .../zip-cache/PaRWl5lKcXtjBteoRZpGCA==             |    1 [32m+[m
+ .../zip-cache/QNJ4OM95+kMsxQdCLJC0hA==             |    1 [32m+[m
+ .../zip-cache/QmzzWxRs7N9X9EHwosAuiQ==             |    1 [32m+[m
+ .../zip-cache/S8GT1HxwhOdxWc+0erQDAw==             |    1 [32m+[m
+ .../zip-cache/SooWNKgl5wVu1MU9n9CJxg==             |    1 [32m+[m
+ .../zip-cache/UBZb6MOVmRGnTFhj9ZLs2A==             |    1 [32m+[m
+ .../zip-cache/UmyotOmUd20mLZYW2H6JLw==             |    1 [32m+[m
+ .../zip-cache/XAPrMDF2SqzzZIeeDjQ+Cw==             |    1 [32m+[m
+ .../zip-cache/XLvpsjRHhQbuRmoe3qo67w==             |    1 [32m+[m
+ .../zip-cache/Yz9x2EH3k6q9Nn95ENNR1g==             |    1 [32m+[m
+ .../zip-cache/dNsQhO404SnAc2xFVbkd0A==             |    1 [32m+[m
+ .../zip-cache/gU9vOJl5WprKH9wrXXOZoQ==             |    1 [32m+[m
+ .../zip-cache/kz8Xc8o3zPRZ+m_OSkBPWA==             |    1 [32m+[m
+ .../zip-cache/ovd6SopApNeGcxhBWqD4jg==             |    1 [32m+[m
+ .../zip-cache/qHR2vAnzBJR_7yuV0+3hIw==             |    1 [32m+[m
+ .../zip-cache/rQghk3y5_v+ljNjgNJyhFg==             |    1 [32m+[m
+ .../zip-cache/rvDV_Lf9d6VlqmraSvz6yA==             |    1 [32m+[m
+ .../zip-cache/s4cQePBJNt3D7CSwMjkezg==             |    1 [32m+[m
+ .../zip-cache/tJNPLGYquml3EIy3knR_ZA==             |    1 [32m+[m
+ .../zip-cache/vC+EkeYYnIAf_7gv+S0Kiw==             |    1 [32m+[m
+ .../zip-cache/vmyhIo0seB5IfaL8NLYKlQ==             |    1 [32m+[m
+ .../zip-cache/xvuYkWX3H+e2P6H+sEbZnw==             |    1 [32m+[m
+ .../zip-cache/ycWgclr9VoXJfiqrcDXH1A==             |    1 [32m+[m
+ .../zip-cache/zX2XTkdF09_IF0UJSYh7zw==             |    1 [32m+[m
+ .../zip-cache/zsjMDIEh2oURDUnqdHqoow==             |    1 [32m+[m
+ .../compile-file-map.properties                    |    7 [32m+[m
+ .../merged.dir/values-af/values-af.xml             |   11 [32m+[m
+ .../merged.dir/values-am/values-am.xml             |   11 [32m+[m
+ .../merged.dir/values-ar/values-ar.xml             |   11 [32m+[m
+ .../merged.dir/values-as/values-as.xml             |   11 [32m+[m
+ .../merged.dir/values-az/values-az.xml             |   11 [32m+[m
+ .../values-b+sr+Latn/values-b+sr+Latn.xml          |   11 [32m+[m
+ .../merged.dir/values-be/values-be.xml             |   11 [32m+[m
+ .../merged.dir/values-bg/values-bg.xml             |   11 [32m+[m
+ .../merged.dir/values-bn/values-bn.xml             |   11 [32m+[m
+ .../merged.dir/values-bs/values-bs.xml             |   11 [32m+[m
+ .../merged.dir/values-ca/values-ca.xml             |   11 [32m+[m
+ .../merged.dir/values-cs/values-cs.xml             |   11 [32m+[m
+ .../merged.dir/values-da/values-da.xml             |   11 [32m+[m
+ .../merged.dir/values-de/values-de.xml             |   11 [32m+[m
+ .../merged.dir/values-el/values-el.xml             |   11 [32m+[m
+ .../merged.dir/values-en-rAU/values-en-rAU.xml     |   11 [32m+[m
+ .../merged.dir/values-en-rCA/values-en-rCA.xml     |   11 [32m+[m
+ .../merged.dir/values-en-rGB/values-en-rGB.xml     |   11 [32m+[m
+ .../merged.dir/values-en-rIN/values-en-rIN.xml     |   11 [32m+[m
+ .../merged.dir/values-en-rXC/values-en-rXC.xml     |   11 [32m+[m
+ .../merged.dir/values-es-rUS/values-es-rUS.xml     |   11 [32m+[m
+ .../merged.dir/values-es/values-es.xml             |   11 [32m+[m
+ .../merged.dir/values-et/values-et.xml             |   11 [32m+[m
+ .../merged.dir/values-eu/values-eu.xml             |   11 [32m+[m
+ .../merged.dir/values-fa/values-fa.xml             |   11 [32m+[m
+ .../merged.dir/values-fi/values-fi.xml             |   11 [32m+[m
+ .../merged.dir/values-fr-rCA/values-fr-rCA.xml     |   11 [32m+[m
+ .../merged.dir/values-fr/values-fr.xml             |   11 [32m+[m
+ .../merged.dir/values-gl/values-gl.xml             |   11 [32m+[m
+ .../merged.dir/values-gu/values-gu.xml             |   11 [32m+[m
+ .../merged.dir/values-hi/values-hi.xml             |   11 [32m+[m
+ .../merged.dir/values-hr/values-hr.xml             |   11 [32m+[m
+ .../merged.dir/values-hu/values-hu.xml             |   11 [32m+[m
+ .../merged.dir/values-hy/values-hy.xml             |   11 [32m+[m
+ .../merged.dir/values-in/values-in.xml             |   11 [32m+[m
+ .../merged.dir/values-is/values-is.xml             |   11 [32m+[m
+ .../merged.dir/values-it/values-it.xml             |   11 [32m+[m
+ .../merged.dir/values-iw/values-iw.xml             |   11 [32m+[m
+ .../merged.dir/values-ja/values-ja.xml             |   11 [32m+[m
+ .../merged.dir/values-ka/values-ka.xml             |   11 [32m+[m
+ .../merged.dir/values-kk/values-kk.xml             |   11 [32m+[m
+ .../merged.dir/values-km/values-km.xml             |   11 [32m+[m
+ .../merged.dir/values-kn/values-kn.xml             |   11 [32m+[m
+ .../merged.dir/values-ko/values-ko.xml             |   11 [32m+[m
+ .../merged.dir/values-ky/values-ky.xml             |   11 [32m+[m
+ .../merged.dir/values-lo/values-lo.xml             |   11 [32m+[m
+ .../merged.dir/values-lt/values-lt.xml             |   11 [32m+[m
+ .../merged.dir/values-lv/values-lv.xml             |   11 [32m+[m
+ .../merged.dir/values-mk/values-mk.xml             |   11 [32m+[m
+ .../merged.dir/values-ml/values-ml.xml             |   11 [32m+[m
+ .../merged.dir/values-mn/values-mn.xml             |   11 [32m+[m
+ .../merged.dir/values-mr/values-mr.xml             |   11 [32m+[m
+ .../merged.dir/values-ms/values-ms.xml             |   11 [32m+[m
+ .../merged.dir/values-my/values-my.xml             |   11 [32m+[m
+ .../merged.dir/values-nb/values-nb.xml             |   11 [32m+[m
+ .../merged.dir/values-ne/values-ne.xml             |   11 [32m+[m
+ .../merged.dir/values-night-v8/values-night-v8.xml |   10 [32m+[m
+ .../merged.dir/values-nl/values-nl.xml             |   11 [32m+[m
+ .../merged.dir/values-or/values-or.xml             |   11 [32m+[m
+ .../merged.dir/values-pa/values-pa.xml             |   11 [32m+[m
+ .../merged.dir/values-pl/values-pl.xml             |   11 [32m+[m
+ .../merged.dir/values-pt-rBR/values-pt-rBR.xml     |   11 [32m+[m
+ .../merged.dir/values-pt-rPT/values-pt-rPT.xml     |   11 [32m+[m
+ .../merged.dir/values-pt/values-pt.xml             |   11 [32m+[m
+ .../merged.dir/values-ro/values-ro.xml             |   11 [32m+[m
+ .../merged.dir/values-ru/values-ru.xml             |   11 [32m+[m
+ .../merged.dir/values-si/values-si.xml             |   11 [32m+[m
+ .../merged.dir/values-sk/values-sk.xml             |   11 [32m+[m
+ .../merged.dir/values-sl/values-sl.xml             |   11 [32m+[m
+ .../merged.dir/values-sq/values-sq.xml             |   11 [32m+[m
+ .../merged.dir/values-sr/values-sr.xml             |   11 [32m+[m
+ .../merged.dir/values-sv/values-sv.xml             |   11 [32m+[m
+ .../merged.dir/values-sw/values-sw.xml             |   11 [32m+[m
+ .../merged.dir/values-ta/values-ta.xml             |   11 [32m+[m
+ .../merged.dir/values-te/values-te.xml             |   11 [32m+[m
+ .../merged.dir/values-th/values-th.xml             |   11 [32m+[m
+ .../merged.dir/values-tl/values-tl.xml             |   11 [32m+[m
+ .../merged.dir/values-tr/values-tr.xml             |   11 [32m+[m
+ .../merged.dir/values-uk/values-uk.xml             |   11 [32m+[m
+ .../merged.dir/values-ur/values-ur.xml             |   11 [32m+[m
+ .../merged.dir/values-uz/values-uz.xml             |   11 [32m+[m
+ .../merged.dir/values-v21/values-v21.xml           |   19 [32m+[m
+ .../merged.dir/values-vi/values-vi.xml             |   11 [32m+[m
+ .../merged.dir/values-zh-rCN/values-zh-rCN.xml     |   11 [32m+[m
+ .../merged.dir/values-zh-rHK/values-zh-rHK.xml     |   11 [32m+[m
+ .../merged.dir/values-zh-rTW/values-zh-rTW.xml     |   11 [32m+[m
+ .../merged.dir/values-zu/values-zu.xml             |   11 [32m+[m
+ .../merged.dir/values/values.xml                   |  344 [32m+++++[m
+ .../debug/mergeDebugResources/merger.xml           |  356 [32m+++++[m
+ .../compile-file-map.properties                    |    7 [32m+[m
+ .../merged.dir/values-night-v8/values-night-v8.xml |   10 [32m+[m
+ .../merged.dir/values/values.xml                   |   10 [32m+[m
+ .../debug/packageDebugResources/merger.xml         |   12 [32m+[m
+ .../incremental/mergeDebugAssets/merger.xml        |    2 [32m+[m
+ .../incremental/mergeDebugJniLibFolders/merger.xml |    2 [32m+[m
+ .../packageDebug/tmp/debug/dex-renamer-state.txt   |   16 [32m+[m
+ .../tmp/debug/zip-cache/androidResources           |    1 [32m+[m
+ .../tmp/debug/zip-cache/javaResources0             |    1 [32m+[m
+ .../out/META-INF/android_app_debug.kotlin_module   |  Bin [31m0[m -> [32m24[m bytes
+ .../linked-resources-binary-format-debug.ap_       |  Bin [31m0[m -> [32m111189[m bytes
+ .../processDebugResources/output-metadata.json     |   20 [32m+[m
+ .../debug/parseDebugLocalResources/R-def.txt       |    6 [32m+[m
+ .../manifest-merger-blame-debug-report.txt         |  172 [32m+++[m
+ .../debug/mergeDebugJavaResource/base.jar          |  Bin [31m0[m -> [32m20156[m bytes
+ .../outputDebugAppLinkSettings/AndroidManifest.xml |  118 [32m++[m
+ .../processDebugMainManifest/AndroidManifest.xml   |  118 [32m++[m
+ .../debug/processDebugManifest/AndroidManifest.xml |  118 [32m++[m
+ .../processDebugManifest/output-metadata.json      |   20 [32m+[m
+ .../out/lib/x86_64/libflutter.so                   |  Bin [31m0[m -> [32m390001840[m bytes
+ .../drawable-v21_launch_background.xml.flat        |  Bin [31m0[m -> [32m348[m bytes
+ .../mipmap-hdpi_ic_launcher.png.flat               |  Bin [31m0[m -> [32m692[m bytes
+ .../mipmap-mdpi_ic_launcher.png.flat               |  Bin [31m0[m -> [32m592[m bytes
+ .../mipmap-xhdpi_ic_launcher.png.flat              |  Bin [31m0[m -> [32m872[m bytes
+ .../mipmap-xxhdpi_ic_launcher.png.flat             |  Bin [31m0[m -> [32m1180[m bytes
+ .../mipmap-xxxhdpi_ic_launcher.png.flat            |  Bin [31m0[m -> [32m1596[m bytes
+ .../values-af_values-af.arsc.flat                  |  Bin [31m0[m -> [32m800[m bytes
+ .../values-am_values-am.arsc.flat                  |  Bin [31m0[m -> [32m832[m bytes
+ .../values-ar_values-ar.arsc.flat                  |  Bin [31m0[m -> [32m844[m bytes
+ .../values-as_values-as.arsc.flat                  |  Bin [31m0[m -> [32m1016[m bytes
+ .../values-az_values-az.arsc.flat                  |  Bin [31m0[m -> [32m808[m bytes
+ .../values-b+sr+Latn_values-b+sr+Latn.arsc.flat    |  Bin [31m0[m -> [32m848[m bytes
+ .../values-be_values-be.arsc.flat                  |  Bin [31m0[m -> [32m884[m bytes
+ .../values-bg_values-bg.arsc.flat                  |  Bin [31m0[m -> [32m904[m bytes
+ .../values-bn_values-bn.arsc.flat                  |  Bin [31m0[m -> [32m956[m bytes
+ .../values-bs_values-bs.arsc.flat                  |  Bin [31m0[m -> [32m792[m bytes
+ .../values-ca_values-ca.arsc.flat                  |  Bin [31m0[m -> [32m800[m bytes
+ .../values-cs_values-cs.arsc.flat                  |  Bin [31m0[m -> [32m816[m bytes
+ .../values-da_values-da.arsc.flat                  |  Bin [31m0[m -> [32m800[m bytes
+ .../values-de_values-de.arsc.flat                  |  Bin [31m0[m -> [32m800[m bytes
+ .../values-el_values-el.arsc.flat                  |  Bin [31m0[m -> [32m892[m bytes
+ .../values-en-rAU_values-en-rAU.arsc.flat          |  Bin [31m0[m -> [32m820[m bytes
+ .../values-en-rCA_values-en-rCA.arsc.flat          |  Bin [31m0[m -> [32m820[m bytes
+ .../values-en-rGB_values-en-rGB.arsc.flat          |  Bin [31m0[m -> [32m820[m bytes
+ .../values-en-rIN_values-en-rIN.arsc.flat          |  Bin [31m0[m -> [32m820[m bytes
+ .../values-en-rXC_values-en-rXC.arsc.flat          |  Bin [31m0[m -> [32m3304[m bytes
+ .../values-es-rUS_values-es-rUS.arsc.flat          |  Bin [31m0[m -> [32m832[m bytes
+ .../values-es_values-es.arsc.flat                  |  Bin [31m0[m -> [32m800[m bytes
+ .../values-et_values-et.arsc.flat                  |  Bin [31m0[m -> [32m804[m bytes
+ .../values-eu_values-eu.arsc.flat                  |  Bin [31m0[m -> [32m800[m bytes
+ .../values-fa_values-fa.arsc.flat                  |  Bin [31m0[m -> [32m864[m bytes
+ .../values-fi_values-fi.arsc.flat                  |  Bin [31m0[m -> [32m808[m bytes
+ .../values-fr-rCA_values-fr-rCA.arsc.flat          |  Bin [31m0[m -> [32m824[m bytes
+ .../values-fr_values-fr.arsc.flat                  |  Bin [31m0[m -> [32m796[m bytes
+ .../values-gl_values-gl.arsc.flat                  |  Bin [31m0[m -> [32m796[m bytes
+ .../values-gu_values-gu.arsc.flat                  |  Bin [31m0[m -> [32m924[m bytes
+ .../values-hi_values-hi.arsc.flat                  |  Bin [31m0[m -> [32m1008[m bytes
+ .../values-hr_values-hr.arsc.flat                  |  Bin [31m0[m -> [32m796[m bytes
+ .../values-hu_values-hu.arsc.flat                  |  Bin [31m0[m -> [32m808[m bytes
+ .../values-hy_values-hy.arsc.flat                  |  Bin [31m0[m -> [32m864[m bytes
+ .../values-in_values-in.arsc.flat                  |  Bin [31m0[m -> [32m800[m bytes
+ .../values-is_values-is.arsc.flat                  |  Bin [31m0[m -> [32m792[m bytes
+ .../values-it_values-it.arsc.flat                  |  Bin [31m0[m -> [32m816[m bytes
+ .../values-iw_values-iw.arsc.flat                  |  Bin [31m0[m -> [32m816[m bytes
+ .../values-ja_values-ja.arsc.flat                  |  Bin [31m0[m -> [32m792[m bytes
+ .../values-ka_values-ka.arsc.flat                  |  Bin [31m0[m -> [32m948[m bytes
+ .../values-kk_values-kk.arsc.flat                  |  Bin [31m0[m -> [32m852[m bytes
+ .../values-km_values-km.arsc.flat                  |  Bin [31m0[m -> [32m948[m bytes
+ .../values-kn_values-kn.arsc.flat                  |  Bin [31m0[m -> [32m1008[m bytes
+ .../values-ko_values-ko.arsc.flat                  |  Bin [31m0[m -> [32m800[m bytes
+ .../values-ky_values-ky.arsc.flat                  |  Bin [31m0[m -> [32m880[m bytes
+ .../values-lo_values-lo.arsc.flat                  |  Bin [31m0[m -> [32m904[m bytes
+ .../values-lt_values-lt.arsc.flat                  |  Bin [31m0[m -> [32m824[m bytes
+ .../values-lv_values-lv.arsc.flat                  |  Bin [31m0[m -> [32m812[m bytes
+ .../values-mk_values-mk.arsc.flat                  |  Bin [31m0[m -> [32m860[m bytes
+ .../values-ml_values-ml.arsc.flat                  |  Bin [31m0[m -> [32m984[m bytes
+ .../values-mn_values-mn.arsc.flat                  |  Bin [31m0[m -> [32m892[m bytes
+ .../values-mr_values-mr.arsc.flat                  |  Bin [31m0[m -> [32m964[m bytes
+ .../values-ms_values-ms.arsc.flat                  |  Bin [31m0[m -> [32m812[m bytes
+ .../values-my_values-my.arsc.flat                  |  Bin [31m0[m -> [32m1016[m bytes
+ .../values-nb_values-nb.arsc.flat                  |  Bin [31m0[m -> [32m796[m bytes
+ .../values-ne_values-ne.arsc.flat                  |  Bin [31m0[m -> [32m936[m bytes
+ .../values-night-v8_values-night-v8.arsc.flat      |  Bin [31m0[m -> [32m576[m bytes
+ .../values-nl_values-nl.arsc.flat                  |  Bin [31m0[m -> [32m804[m bytes
+ .../values-or_values-or.arsc.flat                  |  Bin [31m0[m -> [32m972[m bytes
+ .../values-pa_values-pa.arsc.flat                  |  Bin [31m0[m -> [32m960[m bytes
+ .../values-pl_values-pl.arsc.flat                  |  Bin [31m0[m -> [32m816[m bytes
+ .../values-pt-rBR_values-pt-rBR.arsc.flat          |  Bin [31m0[m -> [32m840[m bytes
+ .../values-pt-rPT_values-pt-rPT.arsc.flat          |  Bin [31m0[m -> [32m836[m bytes
+ .../values-pt_values-pt.arsc.flat                  |  Bin [31m0[m -> [32m808[m bytes
+ .../values-ro_values-ro.arsc.flat                  |  Bin [31m0[m -> [32m800[m bytes
+ .../values-ru_values-ru.arsc.flat                  |  Bin [31m0[m -> [32m876[m bytes
+ .../values-si_values-si.arsc.flat                  |  Bin [31m0[m -> [32m960[m bytes
+ .../values-sk_values-sk.arsc.flat                  |  Bin [31m0[m -> [32m816[m bytes
+ .../values-sl_values-sl.arsc.flat                  |  Bin [31m0[m -> [32m792[m bytes
+ .../values-sq_values-sq.arsc.flat                  |  Bin [31m0[m -> [32m812[m bytes
+ .../values-sr_values-sr.arsc.flat                  |  Bin [31m0[m -> [32m872[m bytes
+ .../values-sv_values-sv.arsc.flat                  |  Bin [31m0[m -> [32m800[m bytes
+ .../values-sw_values-sw.arsc.flat                  |  Bin [31m0[m -> [32m792[m bytes
+ .../values-ta_values-ta.arsc.flat                  |  Bin [31m0[m -> [32m1012[m bytes
+ .../values-te_values-te.arsc.flat                  |  Bin [31m0[m -> [32m1020[m bytes
+ .../values-th_values-th.arsc.flat                  |  Bin [31m0[m -> [32m928[m bytes
+ .../values-tl_values-tl.arsc.flat                  |  Bin [31m0[m -> [32m804[m bytes
+ .../values-tr_values-tr.arsc.flat                  |  Bin [31m0[m -> [32m784[m bytes
+ .../values-uk_values-uk.arsc.flat                  |  Bin [31m0[m -> [32m876[m bytes
+ .../values-ur_values-ur.arsc.flat                  |  Bin [31m0[m -> [32m856[m bytes
+ .../values-uz_values-uz.arsc.flat                  |  Bin [31m0[m -> [32m804[m bytes
+ .../values-v21_values-v21.arsc.flat                |  Bin [31m0[m -> [32m1548[m bytes
+ .../values-vi_values-vi.arsc.flat                  |  Bin [31m0[m -> [32m836[m bytes
+ .../values-zh-rCN_values-zh-rCN.arsc.flat          |  Bin [31m0[m -> [32m808[m bytes
+ .../values-zh-rHK_values-zh-rHK.arsc.flat          |  Bin [31m0[m -> [32m800[m bytes
+ .../values-zh-rTW_values-zh-rTW.arsc.flat          |  Bin [31m0[m -> [32m800[m bytes
+ .../values-zu_values-zu.arsc.flat                  |  Bin [31m0[m -> [32m800[m bytes
+ .../mergeDebugResources/values_values.arsc.flat    |  Bin [31m0[m -> [32m16628[m bytes
+ .../out/multi-v2/mergeDebugResources.json          | 1485 [32m++++++++++++++++++++[m
+ .../out/multi-v2/values-af.json                    |   19 [32m+[m
+ .../out/multi-v2/values-am.json                    |   19 [32m+[m
+ .../out/multi-v2/values-ar.json                    |   19 [32m+[m
+ .../out/multi-v2/values-as.json                    |   19 [32m+[m
+ .../out/multi-v2/values-az.json                    |   19 [32m+[m
+ .../out/multi-v2/values-b+sr+Latn.json             |   19 [32m+[m
+ .../out/multi-v2/values-be.json                    |   19 [32m+[m
+ .../out/multi-v2/values-bg.json                    |   19 [32m+[m
+ .../out/multi-v2/values-bn.json                    |   19 [32m+[m
+ .../out/multi-v2/values-bs.json                    |   19 [32m+[m
+ .../out/multi-v2/values-ca.json                    |   19 [32m+[m
+ .../out/multi-v2/values-cs.json                    |   19 [32m+[m
+ .../out/multi-v2/values-da.json                    |   19 [32m+[m
+ .../out/multi-v2/values-de.json                    |   19 [32m+[m
+ .../out/multi-v2/values-el.json                    |   19 [32m+[m
+ .../out/multi-v2/values-en-rAU.json                |   19 [32m+[m
+ .../out/multi-v2/values-en-rCA.json                |   19 [32m+[m
+ .../out/multi-v2/values-en-rGB.json                |   19 [32m+[m
+ .../out/multi-v2/values-en-rIN.json                |   19 [32m+[m
+ .../out/multi-v2/values-en-rXC.json                |   19 [32m+[m
+ .../out/multi-v2/values-es-rUS.json                |   19 [32m+[m
+ .../out/multi-v2/values-es.json                    |   19 [32m+[m
+ .../out/multi-v2/values-et.json                    |   19 [32m+[m
+ .../out/multi-v2/values-eu.json                    |   19 [32m+[m
+ .../out/multi-v2/values-fa.json                    |   19 [32m+[m
+ .../out/multi-v2/values-fi.json                    |   19 [32m+[m
+ .../out/multi-v2/values-fr-rCA.json                |   19 [32m+[m
+ .../out/multi-v2/values-fr.json                    |   19 [32m+[m
+ .../out/multi-v2/values-gl.json                    |   19 [32m+[m
+ .../out/multi-v2/values-gu.json                    |   19 [32m+[m
+ .../out/multi-v2/values-hi.json                    |   19 [32m+[m
+ .../out/multi-v2/values-hr.json                    |   19 [32m+[m
+ .../out/multi-v2/values-hu.json                    |   19 [32m+[m
+ .../out/multi-v2/values-hy.json                    |   19 [32m+[m
+ .../out/multi-v2/values-in.json                    |   19 [32m+[m
+ .../out/multi-v2/values-is.json                    |   19 [32m+[m
+ .../out/multi-v2/values-it.json                    |   19 [32m+[m
+ .../out/multi-v2/values-iw.json                    |   19 [32m+[m
+ .../out/multi-v2/values-ja.json                    |   19 [32m+[m
+ .../out/multi-v2/values-ka.json                    |   19 [32m+[m
+ .../out/multi-v2/values-kk.json                    |   19 [32m+[m
+ .../out/multi-v2/values-km.json                    |   19 [32m+[m
+ .../out/multi-v2/values-kn.json                    |   19 [32m+[m
+ .../out/multi-v2/values-ko.json                    |   19 [32m+[m
+ .../out/multi-v2/values-ky.json                    |   19 [32m+[m
+ .../out/multi-v2/values-lo.json                    |   19 [32m+[m
+ .../out/multi-v2/values-lt.json                    |   19 [32m+[m
+ .../out/multi-v2/values-lv.json                    |   19 [32m+[m
+ .../out/multi-v2/values-mk.json                    |   19 [32m+[m
+ .../out/multi-v2/values-ml.json                    |   19 [32m+[m
+ .../out/multi-v2/values-mn.json                    |   19 [32m+[m
+ .../out/multi-v2/values-mr.json                    |   19 [32m+[m
+ .../out/multi-v2/values-ms.json                    |   19 [32m+[m
+ .../out/multi-v2/values-my.json                    |   19 [32m+[m
+ .../out/multi-v2/values-nb.json                    |   19 [32m+[m
+ .../out/multi-v2/values-ne.json                    |   19 [32m+[m
+ .../out/multi-v2/values-night-v8.json              |   28 [32m+[m
+ .../out/multi-v2/values-nl.json                    |   19 [32m+[m
+ .../out/multi-v2/values-or.json                    |   19 [32m+[m
+ .../out/multi-v2/values-pa.json                    |   19 [32m+[m
+ .../out/multi-v2/values-pl.json                    |   19 [32m+[m
+ .../out/multi-v2/values-pt-rBR.json                |   19 [32m+[m
+ .../out/multi-v2/values-pt-rPT.json                |   19 [32m+[m
+ .../out/multi-v2/values-pt.json                    |   19 [32m+[m
+ .../out/multi-v2/values-ro.json                    |   19 [32m+[m
+ .../out/multi-v2/values-ru.json                    |   19 [32m+[m
+ .../out/multi-v2/values-si.json                    |   19 [32m+[m
+ .../out/multi-v2/values-sk.json                    |   19 [32m+[m
+ .../out/multi-v2/values-sl.json                    |   19 [32m+[m
+ .../out/multi-v2/values-sq.json                    |   19 [32m+[m
+ .../out/multi-v2/values-sr.json                    |   19 [32m+[m
+ .../out/multi-v2/values-sv.json                    |   19 [32m+[m
+ .../out/multi-v2/values-sw.json                    |   19 [32m+[m
+ .../out/multi-v2/values-ta.json                    |   19 [32m+[m
+ .../out/multi-v2/values-te.json                    |   19 [32m+[m
+ .../out/multi-v2/values-th.json                    |   19 [32m+[m
+ .../out/multi-v2/values-tl.json                    |   19 [32m+[m
+ .../out/multi-v2/values-tr.json                    |   19 [32m+[m
+ .../out/multi-v2/values-uk.json                    |   19 [32m+[m
+ .../out/multi-v2/values-ur.json                    |   19 [32m+[m
+ .../out/multi-v2/values-uz.json                    |   19 [32m+[m
+ .../out/multi-v2/values-v21.json                   |   20 [32m+[m
+ .../out/multi-v2/values-vi.json                    |   19 [32m+[m
+ .../out/multi-v2/values-zh-rCN.json                |   19 [32m+[m
+ .../out/multi-v2/values-zh-rHK.json                |   19 [32m+[m
+ .../out/multi-v2/values-zh-rTW.json                |   19 [32m+[m
+ .../out/multi-v2/values-zu.json                    |   19 [32m+[m
+ .../mergeDebugResources/out/multi-v2/values.json   |  170 [32m+++[m
+ .../out/single/mergeDebugResources.json            |   26 [32m+[m
+ .../debug/extractDeepLinksDebug/navigation.json    |    1 [32m+[m
+ .../nestedResourcesValidationReport.txt            |    1 [32m+[m
+ .../AndroidManifest.xml                            |  118 [32m++[m
+ .../output-metadata.json                           |   20 [32m+[m
+ .../drawable-v21/launch_background.xml             |   12 [32m+[m
+ .../mipmap-hdpi-v4/ic_launcher.png                 |  Bin [31m0[m -> [32m544[m bytes
+ .../mipmap-mdpi-v4/ic_launcher.png                 |  Bin [31m0[m -> [32m442[m bytes
+ .../mipmap-xhdpi-v4/ic_launcher.png                |  Bin [31m0[m -> [32m721[m bytes
+ .../mipmap-xxhdpi-v4/ic_launcher.png               |  Bin [31m0[m -> [32m1031[m bytes
+ .../mipmap-xxxhdpi-v4/ic_launcher.png              |  Bin [31m0[m -> [32m1443[m bytes
+ .../values-night-v8/values-night-v8.xml            |   10 [32m+[m
+ .../debug/packageDebugResources/values/values.xml  |   10 [32m+[m
+ .../khmt2411053_huynhlyngocnhi/MainActivity.dex    |  Bin [31m0[m -> [32m932[m bytes
+ ...e8910629f48351597cc3c05fe519950e2b3f8f849_0.jar |  Bin [31m0[m -> [32m879[m bytes
+ ...e8910629f48351597cc3c05fe519950e2b3f8f849_1.jar |  Bin [31m0[m -> [32m908[m bytes
+ ...e8910629f48351597cc3c05fe519950e2b3f8f849_2.jar |  Bin [31m0[m -> [32m5375[m bytes
+ ...e8910629f48351597cc3c05fe519950e2b3f8f849_3.jar |  Bin [31m0[m -> [32m5284[m bytes
+ ...e8910629f48351597cc3c05fe519950e2b3f8f849_4.jar |  Bin [31m0[m -> [32m3632[m bytes
+ ...e8910629f48351597cc3c05fe519950e2b3f8f849_5.jar |  Bin [31m0[m -> [32m3849[m bytes
+ .../flutter/plugins/GeneratedPluginRegistrant.dex  |  Bin [31m0[m -> [32m1112[m bytes
+ .../debug/processDebugResources/R.txt              |  302 [32m++++[m
+ .../signing-config-versions.json                   |    1 [32m+[m
+ .../debug/processDebugResources/stableIds.txt      |  228 [32m+++[m
+ .../out/lib/x86_64/libflutter.so                   |  Bin [31m0[m -> [32m40083280[m bytes
+ .../debug/generateDebugRFile/package-aware-r.txt   |    5 [32m+[m
+ .../outputs-generated-for-plugins.tab              |  Bin [31m0[m -> [32m4096[m bytes
+ .../outputs-generated-for-plugins.tab.keystream    |  Bin [31m0[m -> [32m4096[m bytes
+ ...outputs-generated-for-plugins.tab.keystream.len |  Bin [31m0[m -> [32m8[m bytes
+ .../outputs-generated-for-plugins.tab.len          |  Bin [31m0[m -> [32m8[m bytes
+ .../outputs-generated-for-plugins.tab.values.at    |  Bin [31m0[m -> [32m55[m bytes
+ .../outputs-generated-for-plugins.tab_i.len        |  Bin [31m0[m -> [32m8[m bytes
+ .../sources-referenced-by-plugins.tab              |  Bin [31m0[m -> [32m4096[m bytes
+ .../sources-referenced-by-plugins.tab.keystream    |  Bin [31m0[m -> [32m4096[m bytes
+ ...sources-referenced-by-plugins.tab.keystream.len |  Bin [31m0[m -> [32m8[m bytes
+ .../sources-referenced-by-plugins.tab.len          |  Bin [31m0[m -> [32m8[m bytes
+ .../sources-referenced-by-plugins.tab.values.at    |  Bin [31m0[m -> [32m55[m bytes
+ .../sources-referenced-by-plugins.tab_i.len        |  Bin [31m0[m -> [32m8[m bytes
+ .../caches-jvm/inputs/source-to-output.tab         |  Bin [31m0[m -> [32m4096[m bytes
+ .../inputs/source-to-output.tab.keystream          |  Bin [31m0[m -> [32m4096[m bytes
+ .../inputs/source-to-output.tab.keystream.len      |  Bin [31m0[m -> [32m8[m bytes
+ .../caches-jvm/inputs/source-to-output.tab.len     |  Bin [31m0[m -> [32m8[m bytes
+ .../inputs/source-to-output.tab.values.at          |  Bin [31m0[m -> [32m354[m bytes
+ .../caches-jvm/inputs/source-to-output.tab_i       |  Bin [31m0[m -> [32m32768[m bytes
+ .../caches-jvm/inputs/source-to-output.tab_i.len   |  Bin [31m0[m -> [32m8[m bytes
+ .../caches-jvm/jvm/kotlin/class-attributes.tab     |  Bin [31m0[m -> [32m4096[m bytes
+ .../jvm/kotlin/class-attributes.tab.keystream      |  Bin [31m0[m -> [32m4096[m bytes
+ .../jvm/kotlin/class-attributes.tab.keystream.len  |  Bin [31m0[m -> [32m8[m bytes
+ .../caches-jvm/jvm/kotlin/class-attributes.tab.len |  Bin [31m0[m -> [32m8[m bytes
+ .../jvm/kotlin/class-attributes.tab.values.at      |  Bin [31m0[m -> [32m52[m bytes
+ .../caches-jvm/jvm/kotlin/class-attributes.tab_i   |  Bin [31m0[m -> [32m32768[m bytes
+ .../jvm/kotlin/class-attributes.tab_i.len          |  Bin [31m0[m -> [32m8[m bytes
+ .../jvm/kotlin/class-fq-name-to-source.tab         |  Bin [31m0[m -> [32m4096[m bytes
+ .../kotlin/class-fq-name-to-source.tab.keystream   |  Bin [31m0[m -> [32m4096[m bytes
+ .../class-fq-name-to-source.tab.keystream.len      |  Bin [31m0[m -> [32m8[m bytes
+ .../jvm/kotlin/class-fq-name-to-source.tab.len     |  Bin [31m0[m -> [32m8[m bytes
+ .../kotlin/class-fq-name-to-source.tab.values.at   |  Bin [31m0[m -> [32m203[m bytes
+ .../jvm/kotlin/class-fq-name-to-source.tab_i       |  Bin [31m0[m -> [32m32768[m bytes
+ .../jvm/kotlin/class-fq-name-to-source.tab_i.len   |  Bin [31m0[m -> [32m8[m bytes
+ .../jvm/kotlin/internal-name-to-source.tab         |  Bin [31m0[m -> [32m4096[m bytes
+ .../kotlin/internal-name-to-source.tab.keystream   |  Bin [31m0[m -> [32m4096[m bytes
+ .../internal-name-to-source.tab.keystream.len      |  Bin [31m0[m -> [32m8[m bytes
+ .../jvm/kotlin/internal-name-to-source.tab.len     |  Bin [31m0[m -> [32m8[m bytes
+ .../kotlin/internal-name-to-source.tab.values.at   |  Bin [31m0[m -> [32m203[m bytes
+ .../jvm/kotlin/internal-name-to-source.tab_i       |  Bin [31m0[m -> [32m32768[m bytes
+ .../jvm/kotlin/internal-name-to-source.tab_i.len   |  Bin [31m0[m -> [32m8[m bytes
+ .../cacheable/caches-jvm/jvm/kotlin/proto.tab      |  Bin [31m0[m -> [32m4096[m bytes
+ .../caches-jvm/jvm/kotlin/proto.tab.keystream      |  Bin [31m0[m -> [32m4096[m bytes
+ .../caches-jvm/jvm/kotlin/proto.tab.keystream.len  |  Bin [31m0[m -> [32m8[m bytes
+ .../cacheable/caches-jvm/jvm/kotlin/proto.tab.len  |  Bin [31m0[m -> [32m8[m bytes
+ .../caches-jvm/jvm/kotlin/proto.tab.values.at      |  Bin [31m0[m -> [32m261[m bytes
+ .../cacheable/caches-jvm/jvm/kotlin/proto.tab_i    |  Bin [31m0[m -> [32m32768[m bytes
+ .../caches-jvm/jvm/kotlin/proto.tab_i.len          |  Bin [31m0[m -> [32m8[m bytes
+ .../caches-jvm/jvm/kotlin/source-to-classes.tab    |  Bin [31m0[m -> [32m4096[m bytes
+ .../jvm/kotlin/source-to-classes.tab.keystream     |  Bin [31m0[m -> [32m4096[m bytes
+ .../jvm/kotlin/source-to-classes.tab.keystream.len |  Bin [31m0[m -> [32m8[m bytes
+ .../jvm/kotlin/source-to-classes.tab.len           |  Bin [31m0[m -> [32m8[m bytes
+ .../jvm/kotlin/source-to-classes.tab.values.at     |  Bin [31m0[m -> [32m189[m bytes
+ .../caches-jvm/jvm/kotlin/source-to-classes.tab_i  |  Bin [31m0[m -> [32m32768[m bytes
+ .../jvm/kotlin/source-to-classes.tab_i.len         |  Bin [31m0[m -> [32m8[m bytes
+ .../cacheable/caches-jvm/jvm/kotlin/subtypes.tab   |  Bin [31m0[m -> [32m4096[m bytes
+ .../caches-jvm/jvm/kotlin/subtypes.tab.keystream   |  Bin [31m0[m -> [32m4096[m bytes
+ .../jvm/kotlin/subtypes.tab.keystream.len          |  Bin [31m0[m -> [32m8[m bytes
+ .../caches-jvm/jvm/kotlin/subtypes.tab.len         |  Bin [31m0[m -> [32m8[m bytes
+ .../caches-jvm/jvm/kotlin/subtypes.tab.values.at   |  Bin [31m0[m -> [32m103[m bytes
+ .../cacheable/caches-jvm/jvm/kotlin/subtypes.tab_i |  Bin [31m0[m -> [32m32768[m bytes
+ .../caches-jvm/jvm/kotlin/subtypes.tab_i.len       |  Bin [31m0[m -> [32m8[m bytes
+ .../cacheable/caches-jvm/jvm/kotlin/supertypes.tab |  Bin [31m0[m -> [32m4096[m bytes
+ .../caches-jvm/jvm/kotlin/supertypes.tab.keystream |  Bin [31m0[m -> [32m4096[m bytes
+ .../jvm/kotlin/supertypes.tab.keystream.len        |  Bin [31m0[m -> [32m8[m bytes
+ .../caches-jvm/jvm/kotlin/supertypes.tab.len       |  Bin [31m0[m -> [32m8[m bytes
+ .../caches-jvm/jvm/kotlin/supertypes.tab.values.at |  Bin [31m0[m -> [32m96[m bytes
+ .../caches-jvm/jvm/kotlin/supertypes.tab_i         |  Bin [31m0[m -> [32m32768[m bytes
+ .../caches-jvm/jvm/kotlin/supertypes.tab_i.len     |  Bin [31m0[m -> [32m8[m bytes
+ .../cacheable/caches-jvm/lookups/counters.tab      |    2 [32m+[m
+ .../cacheable/caches-jvm/lookups/file-to-id.tab    |  Bin [31m0[m -> [32m4096[m bytes
+ .../caches-jvm/lookups/file-to-id.tab.keystream    |  Bin [31m0[m -> [32m4096[m bytes
+ .../lookups/file-to-id.tab.keystream.len           |  Bin [31m0[m -> [32m8[m bytes
+ .../caches-jvm/lookups/file-to-id.tab.len          |  Bin [31m0[m -> [32m8[m bytes
+ .../caches-jvm/lookups/file-to-id.tab.values.at    |  Bin [31m0[m -> [32m55[m bytes
+ .../cacheable/caches-jvm/lookups/file-to-id.tab_i  |  Bin [31m0[m -> [32m32768[m bytes
+ .../caches-jvm/lookups/file-to-id.tab_i.len        |  Bin [31m0[m -> [32m8[m bytes
+ .../cacheable/caches-jvm/lookups/id-to-file.tab    |  Bin [31m0[m -> [32m4096[m bytes
+ .../caches-jvm/lookups/id-to-file.tab.keystream    |  Bin [31m0[m -> [32m4096[m bytes
+ .../lookups/id-to-file.tab.keystream.len           |  Bin [31m0[m -> [32m8[m bytes
+ .../caches-jvm/lookups/id-to-file.tab.len          |  Bin [31m0[m -> [32m8[m bytes
+ .../caches-jvm/lookups/id-to-file.tab.values.at    |  Bin [31m0[m -> [32m126[m bytes
+ .../caches-jvm/lookups/id-to-file.tab_i.len        |  Bin [31m0[m -> [32m8[m bytes
+ .../cacheable/caches-jvm/lookups/lookups.tab       |  Bin [31m0[m -> [32m4096[m bytes
+ .../caches-jvm/lookups/lookups.tab.keystream       |  Bin [31m0[m -> [32m4096[m bytes
+ .../caches-jvm/lookups/lookups.tab.keystream.len   |  Bin [31m0[m -> [32m8[m bytes
+ .../cacheable/caches-jvm/lookups/lookups.tab.len   |  Bin [31m0[m -> [32m8[m bytes
+ .../caches-jvm/lookups/lookups.tab.values.at       |  Bin [31m0[m -> [32m67[m bytes
+ .../cacheable/caches-jvm/lookups/lookups.tab_i     |  Bin [31m0[m -> [32m32768[m bytes
+ .../cacheable/caches-jvm/lookups/lookups.tab_i.len |  Bin [31m0[m -> [32m8[m bytes
+ .../compileDebugKotlin/cacheable/last-build.bin    |  Bin [31m0[m -> [32m18[m bytes
+ .../shrunk-classpath-snapshot.bin                  |  Bin [31m0[m -> [32m3505[m bytes
+ android/app/build/outputs/apk/debug/app-debug.apk  |  Bin [31m0[m -> [32m63246976[m bytes
+ .../build/outputs/apk/debug/output-metadata.json   |   21 [32m+[m
+ .../app/build/outputs/flutter-apk/app-debug.apk    |  Bin [31m0[m -> [32m63246976[m bytes
+ .../outputs/logs/manifest-merger-debug-report.txt  |  235 [32m++++[m
+ .../previous-compilation-data.bin                  |  Bin [31m0[m -> [32m53626[m bytes
+ .../debug/META-INF/android_app_debug.kotlin_module |  Bin [31m0[m -> [32m24[m bytes
+ .../build/reports/problems/problems-report.html    |  659 [32m+++++++++[m
+ lib/main.dart                                      |  117 [32m+[m[31m-[m
+ 543 files changed, 7396 insertions(+), 73 deletions(-)
