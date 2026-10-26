@@ -1,40 +1,12 @@
+import 'package:flutter/material.dart';
 import 'dashboard.dart';
 import 'database/database_helper.dart';
-import 'package:flutter/material.dart';
-
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  try {
-    final db = DatabaseHelper.instance;
-
-    final categories = await db.getCategories();
-    final transactions = await db.getTransactions();
-
-    if (transactions.isEmpty) {
-      await db.insertTransaction(
-        categoryId: 1,
-        amount: 100000,
-        type: 'Chi tiêu',
-        date: DateTime(2025, 4, 12),
-        note: 'Ăn trưa',
-      );
-    }
-
-    final savedTransactions = await db.getTransactions();
-    debugPrint('Du lieu SQLite: $savedTransactions');
-
-    debugPrint('SQLite ket noi thanh cong!');
-    debugPrint('So danh muc: ${categories.length}');
-    debugPrint('So giao dich: ${transactions.length}');
-  } catch (e) {
-    debugPrint('Loi khoi tao SQLite: $e');
-  }
-
+  await DatabaseHelper.instance.ensureCategories();
   runApp(const ExpenseManagerApp());
 }
-
 
 class ExpenseManagerApp extends StatelessWidget {
   const ExpenseManagerApp({super.key});
@@ -42,79 +14,22 @@ class ExpenseManagerApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Expense Manager',
       debugShowCheckedModeBanner: false,
+      title: 'Expense Manager',
       theme: ThemeData(
         useMaterial3: true,
-        scaffoldBackgroundColor: Colors.white,
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF2169E8)),
+        scaffoldBackgroundColor: const Color(0xFFF7F9FF),
       ),
       home: const DashboardScreen(),
-      routes: {
-        '/add': (context) => const TransactionScreen(),
-        '/edit': (context) =>
-        const TransactionScreen(isEdit: true),
-      },
     );
   }
 }
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Expense Manager'), centerTitle: true),
-      body: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(Icons.account_balance_wallet_rounded,
-                size: 95, color: Color(0xFF1976D2)),
-            const SizedBox(height: 18),
-            const Text('Expense Manager',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-            const SizedBox(height: 8),
-            const Text('Quản lý chi tiêu cá nhân\nđơn giản và hiệu quả',
-                textAlign: TextAlign.center,
-                style: TextStyle(color: Color(0xFF8190A5))),
-            const SizedBox(height: 45),
-            SizedBox(
-              width: double.infinity,
-              height: 50,
-              child: ElevatedButton(
-                onPressed: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (_) => const TransactionScreen())),
-                child: const Text('Thêm giao dịch'),
-              ),
-            ),
-            const SizedBox(height: 14),
-            SizedBox(
-              width: double.infinity,
-              height: 50,
-              child: OutlinedButton(
-                onPressed: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (_) => const TransactionScreen(isEdit: true))),
-                child: const Text('Sửa giao dịch'),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
+// Null = thêm giao dịch. Có id = sửa giao dịch.
 class TransactionScreen extends StatefulWidget {
-  final bool isEdit;
-
-  const TransactionScreen({super.key, this.isEdit = false});
+  final int? transactionId;
+  const TransactionScreen({super.key, this.transactionId});
 
   @override
   State<TransactionScreen> createState() => _TransactionScreenState();
@@ -122,198 +37,280 @@ class TransactionScreen extends StatefulWidget {
 
 class _TransactionScreenState extends State<TransactionScreen> {
   final _formKey = GlobalKey<FormState>();
-  late final TextEditingController amountController;
-  late final TextEditingController noteController;
-  String transactionType = 'Chi tiêu';
-  String category = 'Ăn uống';
-  DateTime selectedDate = DateTime(2025, 4, 12);
+  final _amountController = TextEditingController();
+  final _noteController = TextEditingController();
+  final _db = DatabaseHelper.instance;
+  String _type = 'Chi tiêu';
+  int? _categoryId;
+  DateTime _date = DateTime.now();
+  List<Map<String, Object?>> _categories = [];
+  bool _loading = true;
+  bool _saving = false;
 
-  static const red = Color(0xFFFF626B);
-  static const blue = Color(0xFF2169E8);
-  static const navy = Color(0xFF1B2B49);
-  static const borderColor = Color(0xFFD9E1ED);
+  String _money(int amount) {
+    final digits = amount.toString();
+    return digits.replaceAllMapped(
+      RegExp(r'\B(?=(\d{3})+(?!\d))'), (match) => '.',
+    );
+  }
 
-  final List<String> categories = const [
-    'Ăn uống', 'Mua sắm', 'Di chuyển', 'Giải trí', 'Lương', 'Khác'
-  ];
+  int? get _enteredAmount => int.tryParse(
+    _amountController.text.replaceAll(RegExp(r'[.,\s]'), ''),
+  );
+
+  bool get isEdit => widget.transactionId != null;
 
   @override
   void initState() {
     super.initState();
-    amountController = TextEditingController(text: widget.isEdit ? '100.000' : '');
-    noteController = TextEditingController(text: widget.isEdit ? 'Ăn trưa' : '');
+    _load();
+  }
+
+  Future<void> _load() async {
+    try {
+      if (isEdit) {
+        final data = await _db.getTransactionById(widget.transactionId!);
+        if (data == null) throw StateError('Không tìm thấy giao dịch');
+        _type = data['type'] as String;
+        _categoryId = (data['category_id'] as num).toInt();
+        _amountController.text = (data['amount'] as num).toInt().toString();
+        _noteController.text = (data['note'] as String?) ?? '';
+        _date = DateTime.parse(data['date'] as String);
+      }
+      final categories = await _db.getCategories(_type);
+      if (!mounted) return;
+      setState(() {
+        _categories = categories;
+        if (!categories.any((c) => c['id'] == _categoryId)) {
+          _categoryId = categories.isEmpty ? null : (categories.first['id'] as num).toInt();
+        }
+        _loading = false;
+      });
+    } catch (e) {
+      if (!mounted) return;
+      setState(() => _loading = false);
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Lỗi tải dữ liệu: $e')));
+    }
+  }
+
+  Future<void> _changeType(String type) async {
+    if (_type == type) return;
+    setState(() {
+      _type = type;
+      _categoryId = null;
+    });
+    final categories = await _db.getCategories(type);
+    if (!mounted) return;
+    setState(() {
+      _categories = categories;
+      _categoryId = categories.isEmpty ? null : (categories.first['id'] as num).toInt();
+    });
+  }
+
+  Future<void> _chooseDate() async {
+    final picked = await showDatePicker(
+      context: context,
+      initialDate: _date,
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
+    );
+    if (picked != null && mounted) setState(() => _date = picked);
+  }
+
+  Future<void> _save() async {
+    if (!_formKey.currentState!.validate() || _categoryId == null || _saving) return;
+    final amount = _enteredAmount!;
+    // Confirm before saving, to prevent accidentally recording huge expenses.
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: Text(isEdit ? 'Xác nhận sửa giao dịch' : 'Xác nhận thêm giao dịch'),
+        content: Text(
+          'Loại: $_type\n'
+              'Số tiền: ${_money(amount)} đ\n\n'
+              '${amount >= 100000000 ? 'Lưu ý: Số tiền rất lớn. Hãy kiểm tra số chữ số trước khi lưu.' : 'Bạn có muốn lưu giao dịch này không?'}',
+        ),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(dialogContext, false), child: const Text('Kiểm tra lại')),
+          FilledButton(onPressed: () => Navigator.pop(dialogContext, true), child: const Text('Lưu giao dịch')),
+        ],
+      ),
+    );
+    if (confirmed != true || !mounted) return;
+    setState(() => _saving = true);
+    try {
+      if (isEdit) {
+        await _db.updateTransaction(
+          id: widget.transactionId!, categoryId: _categoryId!, amount: amount,
+          type: _type, date: _date, note: _noteController.text,
+        );
+      } else {
+        await _db.insertTransaction(
+          categoryId: _categoryId!, amount: amount,
+          type: _type, date: _date, note: _noteController.text,
+        );
+      }
+      if (!mounted) return;
+      Navigator.pop(context, true); // Báo Dashboard tải lại số liệu.
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Không thể lưu: $e')));
+      setState(() => _saving = false);
+    }
+  }
+
+  Future<void> _delete() async {
+    if (!isEdit) return;
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Xóa giao dịch?'),
+        content: const Text('Giao dịch sẽ bị xóa khỏi SQLite.'),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(context, false), child: const Text('Hủy')),
+          TextButton(onPressed: () => Navigator.pop(context, true), child: const Text('Xóa')),
+        ],
+      ),
+    );
+    if (confirmed != true) return;
+    try {
+      await _db.deleteTransaction(widget.transactionId!);
+      if (mounted) Navigator.pop(context, true);
+    } catch (e) {
+      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Không thể xóa: $e')));
+    }
   }
 
   @override
   void dispose() {
-    amountController.dispose();
-    noteController.dispose();
+    _amountController.dispose();
+    _noteController.dispose();
     super.dispose();
   }
 
-  String dateText(DateTime d) =>
-      '${d.day.toString().padLeft(2, '0')}/${d.month.toString().padLeft(2, '0')}/${d.year}';
+  String get formattedDate =>
+      '${_date.day.toString().padLeft(2, '0')}/${_date.month.toString().padLeft(2, '0')}/${_date.year}';
 
-  Future<void> selectDate() async {
-    final date = await showDatePicker(
-      context: context,
-      initialDate: selectedDate,
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2100),
-    );
-    if (date != null && mounted) setState(() => selectedDate = date);
-  }
-
-  InputDecoration inputStyle({String? hint, Widget? suffix}) {
-    return InputDecoration(
-      hintText: hint,
-      hintStyle: const TextStyle(color: Color(0xFF94A3B8), fontSize: 14),
-      suffixIcon: suffix,
-      contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
-      border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8),
-        borderSide: const BorderSide(color: borderColor),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8),
-        borderSide: const BorderSide(color: blue, width: 1.5),
-      ),
-    );
-  }
-
-  Widget fieldLabel(String label) => Padding(
-    padding: const EdgeInsets.only(top: 20, bottom: 9),
-    child: Text(label,
-        style: const TextStyle(
-            color: navy, fontSize: 14, fontWeight: FontWeight.bold)),
+  InputDecoration _decoration({String? hint, Widget? suffix}) => InputDecoration(
+    hintText: hint,
+    suffixIcon: suffix,
+    filled: true,
+    fillColor: Colors.white,
+    contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 15),
+    border: OutlineInputBorder(borderRadius: BorderRadius.circular(9)),
+    enabledBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(9),
+      borderSide: const BorderSide(color: Color(0xFFD7DFED)),
+    ),
   );
 
-  Widget typeButton(String type) {
-    final selected = transactionType == type;
-    return Expanded(
-      child: InkWell(
-        onTap: () => setState(() => transactionType = type),
-        borderRadius: BorderRadius.circular(8),
-        child: Container(
-          height: 44,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: selected ? (type == 'Chi tiêu' ? red : blue) : Colors.white,
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: selected ? Colors.transparent : borderColor),
-          ),
-          child: Text(type,
-              style: TextStyle(
-                  color: selected ? Colors.white : navy,
-                  fontWeight: FontWeight.w600)),
-        ),
-      ),
-    );
-  }
-
-  void saveTransaction() {
-    if (!_formKey.currentState!.validate()) return;
-    final money = int.tryParse(
-        amountController.text.replaceAll(RegExp(r'[.,\s]'), ''));
-    if (money == null || money <= 0) return;
-
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(widget.isEdit
-          ? 'Cập nhật giao dịch thành công (bản demo)!'
-          : 'Thêm giao dịch thành công (bản demo)!'),
-    ));
-  }
+  Widget _label(String text) => Padding(
+    padding: const EdgeInsets.only(top: 22, bottom: 9),
+    child: Text(text, style: const TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF1B2B49))),
+  );
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
+        title: Text(isEdit ? 'Sửa giao dịch' : 'Thêm giao dịch',
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
         centerTitle: true,
-        title: Text(widget.isEdit ? 'Sửa giao dịch' : 'Thêm giao dịch',
-            style: const TextStyle(
-                color: navy, fontSize: 17, fontWeight: FontWeight.bold)),
+        actions: [if (isEdit) IconButton(icon: const Icon(Icons.delete_outline), onPressed: _delete)],
       ),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(20, 12, 20, 20),
-          child: Form(
-            key: _formKey,
+      body: _loading
+          ? const Center(child: CircularProgressIndicator())
+          : SafeArea(
+        child: Form(
+          key: _formKey,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(20, 16, 20, 18),
             child: Column(
               children: [
                 Expanded(
                   child: ListView(
                     children: [
                       Row(children: [
-                        typeButton('Chi tiêu'),
-                        const SizedBox(width: 5),
-                        typeButton('Thu nhập'),
+                        for (final type in ['Chi tiêu', 'Thu nhập'])
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 4),
+                              child: OutlinedButton(
+                                onPressed: () => _changeType(type),
+                                style: OutlinedButton.styleFrom(
+                                  backgroundColor: _type == type
+                                      ? (type == 'Chi tiêu' ? const Color(0xFFFF6069) : const Color(0xFF2169E8))
+                                      : Colors.white,
+                                  foregroundColor: _type == type ? Colors.white : const Color(0xFF172542),
+                                  side: const BorderSide(color: Color(0xFFD7DFED)),
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                                ),
+                                child: Text(type),
+                              ),
+                            ),
+                          ),
                       ]),
-                      fieldLabel('Danh mục'),
-                      DropdownButtonFormField<String>(
-                        value: category,
-                        decoration: inputStyle(),
-                        items: categories
-                            .map((item) => DropdownMenuItem<String>(
-                          value: item,
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const Icon(Icons.restaurant,
-                                  color: red, size: 20),
-                              const SizedBox(width: 12),
-                              Text(item),
-                            ],
-                          ),
-                        ))
-                            .toList(),
-                        onChanged: (value) {
-                          if (value != null) setState(() => category = value);
-                        },
+                      const SizedBox(height: 10),
+                      Text(
+                        _type == 'Thu nhập'
+                            ? 'Khoản tiền được CỘNG vào số dư.'
+                            : 'Khoản tiền bị TRỪ khỏi số dư.',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          color: _type == 'Thu nhập'
+                              ? const Color(0xFF198754)
+                              : const Color(0xFFD64550),
+                        ),
                       ),
-                      fieldLabel('Số tiền'),
+                      _label('Danh mục'),
+                      DropdownButtonFormField<int>(
+                        initialValue: _categoryId,
+                        decoration: _decoration(),
+                        items: _categories.map((c) => DropdownMenuItem<int>(
+                          value: (c['id'] as num).toInt(),
+                          child: Text(c['name'] as String),
+                        )).toList(),
+                        onChanged: (value) => setState(() => _categoryId = value),
+                        validator: (value) => value == null ? 'Hãy chọn danh mục' : null,
+                      ),
+                      _label('Số tiền'),
                       TextFormField(
-                        controller: amountController,
+                        controller: _amountController,
                         keyboardType: TextInputType.number,
-                        decoration: inputStyle(
-                          hint: 'Nhập số tiền',
-                          suffix: const Center(
-                            widthFactor: 1,
-                            child: Text('đ',
-                                style: TextStyle(color: Color(0xFF64748B))),
-                          ),
-                        ),
+                        onChanged: (_) => setState(() {}),
+                        decoration: _decoration(hint: 'Nhập số tiền', suffix: const Center(widthFactor: 1, child: Text('đ'))),
                         validator: (value) {
-                          if (value == null || value.trim().isEmpty) {
-                            return 'Vui lòng nhập số tiền';
-                          }
-                          final amount = int.tryParse(
-                              value.replaceAll(RegExp(r'[.,\s]'), ''));
-                          if (amount == null || amount <= 0) {
-                            return 'Số tiền không hợp lệ';
-                          }
-                          return null;
+                          final n = int.tryParse((value ?? '').replaceAll(RegExp(r'[.,\s]'), ''));
+                          return n == null || n <= 0 ? 'Nhập số tiền lớn hơn 0' : null;
                         },
                       ),
-                      fieldLabel('Ngày giao dịch'),
-                      InkWell(
-                        onTap: selectDate,
-                        child: InputDecorator(
-                          decoration: inputStyle(
-                            suffix: const Icon(Icons.calendar_month_outlined,
-                                color: Color(0xFF64748B)),
+                      if ((_enteredAmount ?? 0) > 0)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8),
+                          child: Text(
+                            '${_type == 'Thu nhập' ? '+' : '-'}${_money(_enteredAmount!)} đ sẽ ${_type == 'Thu nhập' ? 'cộng vào' : 'trừ khỏi'} số dư',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: _type == 'Thu nhập'
+                                  ? const Color(0xFF198754)
+                                  : const Color(0xFFD64550),
+                            ),
                           ),
-                          child: Text(dateText(selectedDate),
-                              style: const TextStyle(
-                                  color: navy, fontWeight: FontWeight.w500)),
+                        ),
+                      _label('Ngày giao dịch'),
+                      InkWell(
+                        onTap: _chooseDate,
+                        child: InputDecorator(
+                          decoration: _decoration(suffix: const Icon(Icons.calendar_month_outlined)),
+                          child: Text(formattedDate),
                         ),
                       ),
-                      fieldLabel('Ghi chú'),
+                      _label('Ghi chú'),
                       TextFormField(
-                        controller: noteController,
+                        controller: _noteController,
                         maxLines: 3,
-                        decoration: inputStyle(hint: 'Nhập ghi chú (tùy chọn)'),
+                        decoration: _decoration(hint: 'Nhập ghi chú (tùy chọn)'),
                       ),
                     ],
                   ),
@@ -322,16 +319,13 @@ class _TransactionScreenState extends State<TransactionScreen> {
                   width: double.infinity,
                   height: 50,
                   child: ElevatedButton(
-                    onPressed: saveTransaction,
+                    onPressed: _saving ? null : _save,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: blue,
+                      backgroundColor: const Color(0xFF2169E8),
                       foregroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8)),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(9)),
                     ),
-                    child: const Text('Lưu',
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold)),
+                    child: Text(_saving ? 'Đang lưu...' : 'Lưu', style: const TextStyle(fontWeight: FontWeight.bold)),
                   ),
                 ),
               ],
