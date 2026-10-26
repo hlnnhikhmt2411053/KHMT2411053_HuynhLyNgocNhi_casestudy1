@@ -1,7 +1,40 @@
 import 'dashboard.dart';
+import 'database/database_helper.dart';
 import 'package:flutter/material.dart';
 
-void main() => runApp(const ExpenseManagerApp());
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  try {
+    final db = DatabaseHelper.instance;
+
+    final categories = await db.getCategories();
+    final transactions = await db.getTransactions();
+
+    if (transactions.isEmpty) {
+      await db.insertTransaction(
+        categoryId: 1,
+        amount: 100000,
+        type: 'Chi tiêu',
+        date: DateTime(2025, 4, 12),
+        note: 'Ăn trưa',
+      );
+    }
+
+    final savedTransactions = await db.getTransactions();
+    debugPrint('Du lieu SQLite: $savedTransactions');
+
+    debugPrint('SQLite ket noi thanh cong!');
+    debugPrint('So danh muc: ${categories.length}');
+    debugPrint('So giao dich: ${transactions.length}');
+  } catch (e) {
+    debugPrint('Loi khoi tao SQLite: $e');
+  }
+
+  runApp(const ExpenseManagerApp());
+}
+
 
 class ExpenseManagerApp extends StatelessWidget {
   const ExpenseManagerApp({super.key});
