@@ -1,3 +1,4 @@
+import 'dashboard.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(const ExpenseManagerApp());
@@ -15,7 +16,12 @@ class ExpenseManagerApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.white,
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF2169E8)),
       ),
-      home: const HomeScreen(),
+      home: const DashboardScreen(),
+      routes: {
+        '/add': (context) => const TransactionScreen(),
+        '/edit': (context) =>
+        const TransactionScreen(isEdit: true),
+      },
     );
   }
 }
