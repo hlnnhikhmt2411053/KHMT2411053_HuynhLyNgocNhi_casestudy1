@@ -282,7 +282,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
                         decoration: _decoration(hint: 'Nhập số tiền', suffix: const Center(widthFactor: 1, child: Text('đ'))),
                         validator: (value) {
                           final n = int.tryParse((value ?? '').replaceAll(RegExp(r'[.,\s]'), ''));
-                          return n == null || n <= 0 ? 'Nhập số tiền lớn hơn 0' : null;
+                          return n == null || n <= 0 ? 'Nhập số  tiền lớn hơn 0' : null;
                         },
                       ),
                       if ((_enteredAmount ?? 0) > 0)
